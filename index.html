@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Bagay na ito: set referrer policy sa meta -->
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
+  <title>Global Citizen's Showcase - Climate Change</title>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* General Styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: linear-gradient(135deg, #b9d2f5, #b9d5ff); color: #333; scroll-behavior: smooth; }
+    a { text-decoration: none; color: inherit; }
+
+    /* Navbar */
+    nav.navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.15); backdrop-filter: blur(15px); display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; z-index: 1000; transition: all 0.5s ease; }
+    .logo { font-family: 'Raleway', sans-serif; font-size: 1.8em; font-weight: 700; color: #1e3a5f; }
+    .nav-links a { margin: 0 15px; font-weight: 600; font-size: 0.95em; color: #1e3a5f; transition: color 0.4s ease, transform 0.3s ease; }
+    .nav-links a:hover { color: #6390b9; transform: scale(1.1); }
+
+    /* Landing */
+    .landing { height: 100vh; background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; transition: all 1s ease; position: relative; }
+    .landing.blur-bg::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; background-size: cover; background-position: center; filter: blur(8px); z-index: -1; }
+    .landing h1 { font-size: 4em; margin-bottom: 15px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+    .landing p { font-size: 1.5em; max-width: 700px; text-shadow: 1px 1px 8px rgba(0,0,0,0.5); color: #fff; margin-bottom: 20px; }
+    .landing a.landing-btn { display: inline-block; margin-top: 20px; padding: 12px 28px; background: rgba(30,58,95,0.8); color: #fff; font-weight: bold; border-radius: 5px; transition: background 0.4s ease, color 0.4s ease, transform 0.3s ease; }
+    .landing a.landing-btn:hover { background: #4b6c8a; transform: scale(1.05); }
+
+    /* Sections */
+    section { padding: 50px 20px; text-align: center; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    section.visible { opacity: 1; transform: translateY(0); }
+    section h2 { font-size: 2.2em; margin-bottom: 12px; color: #1e3a5f; transition: color 0.3s ease; }
+    section p { max-width: 750px; margin: 0 auto 18px auto; font-size: 1.1em; color: #444; line-height: 1.6; }
+
+    /* Images / Media */
+    .images { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 18px; }
+    .images img { width: 300px; height: 200px; object-fit: cover; border-radius: 10px; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .images img:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+
+    /* Responsive Video Container */
+    .video-container { position: relative; width: 80%; margin: 10px auto; padding-bottom: 30%; height: 0; transition: all 0.5s ease; }
+    .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 10px; transition: transform 0.4s ease; }
+    .video-container iframe:hover { transform: scale(1.02); }
+
+    /* Chart Container */
+    .chart-containerch { width: 70%; max-width: 500px; margin: 15px auto; transition: all 0.5s ease; }
+
+    /* Contact Section */
+    .contact-info p { margin: 5px 0; font-size: 1.1em; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; }
+    .contact-info img { width: 22px; vertical-align: middle; }
+
+    /* Team Dropdown */
+    .team-dropdown-btn { display: inline-block; margin: 15px 0; padding: 10px 15px; font-size: 1.05em; font-weight: 600; background: #1e3a5f; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.4s ease, transform 0.3s ease; }
+    .team-dropdown-btn:hover { background: #4b6c8a; transform: scale(1.05); }
+
+    .team-content { display: none; margin-top: 15px; gap: 15px; justify-content: center; flex-wrap: wrap; opacity: 0; transition: opacity 0.5s ease; }
+    .team-content.show { display: flex; opacity: 1; }
+    .team-content img { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; transition: transform 0.4s ease, box-shadow 0.4s ease; }
+    .team-content img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
+
+    /* Footer */
+    footer { padding: 25px 20px; text-align: center; background: rgba(30,58,95,0.15); backdrop-filter: blur(5px); color: #1e3a5f; transition: all 0.5s ease; }
+    footer img { width: 22px; vertical-align: middle; margin-right: 6px; }
+    footer a { color: #1e3a5f; transition: color 0.3s ease; }
+    footer a:hover { color: #4b6c8a; }
+
+    /* Responsive */
+    @media (max-width:768px) {
+      .landing h1 { font-size: 3em; }
+      .landing p { font-size: 1.2em; margin-bottom: 15px; }
+      nav.navbar { flex-direction: column; padding: 10px 20px; }
+      .nav-links { margin-top: 10px; }
+      .nav-links a { margin: 0 10px; font-size: 0.9em; }
+      .images img { width: 90%; height: auto; }
+      .video-container { width: 90%; padding-bottom: 56.25%; margin: 20px auto; }
+      .team-content img { width: 40%; height: auto; }
+    }
+    /* BURGER MENU */
+.burger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.burger span {
+  width: 28px;
+  height: 3px;
+  background: #1e3a5f;
+  border-radius: 5px;
+  transition: 0.4s;
+}
+
+/* SHOW BURGER ON MOBILE */
+@media (max-width: 768px) {
+  .burger { display: flex; }
+
+  .nav-links {
+    position: absolute;
+    top: 70px;
+    right: -100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    width: 200px;
+    padding: 20px;
+    flex-direction: column;
+    text-align: right;
+    gap: 15px;
+    border-radius: 10px 0 0 10px;
+    box-shadow: -5px 5px 20px rgba(0,0,0,0.15);
+    transition: right 0.4s ease;
+  }
+
+  .nav-links a {
+    display: block;
+    padding: 8px 0;
+    margin: 0;
+    font-size: 1em;
+  }
+
+  .nav-links.show {
+    right: 0;
+  }
+
+  /* Burger Animation */
+  .burger.active span:nth-child(1) {
+    transform: rotate(45deg) translateY(8px);
+  }
+  .burger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  .burger.active span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-8px);
+  }
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo">🌐 Global Showcase</div>
+    <!-- BURGER MENU BUTTON -->
+    <div class="burger" id="burger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#overview">Overview</a>
+      <a href="#cause-effect">Cause & Effect</a>
+      <a href="#philippines">Philippine Context</a>
+      <a href="#media">Media</a>
+      <a href="#solutions">Solutions</a>
+      <a href="#glossary">Glossary</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Landing -->
+  <section class="landing" id="home">
+    <h1>Global Citizen's Showcase</h1>
+    <p>Understanding Climate Change and Global Justice: Examine causes, effects, and solutions with real-world applications.</p>
+    <a href="#overview" class="landing-btn">Start Exploring</a>
+  </section>
+
+  <!-- Overview -->
+  <section id="overview">
+    <h2>Overview</h2>
+    <p>Climate change is one of the most pressing global issues, affecting ecosystems, economies, and societies worldwide. Rising temperatures, extreme weather events, and sea-level rise are interconnected with economic development and global justice.</p>
+    <p>Over the past decades, human activities have drastically accelerated environmental changes. The burning of fossil fuels, unsustainable farming techniques, and massive industrial expansion have released billions of tons of greenhouse gases into the atmosphere. These gases trap heat, causing global warming. As temperatures rise, ice caps melt, oceans warm, coral reefs degrade, and biodiversity suffers.</p>
+    <p>Climate change is not only an environmental issue—it is also a human rights issue. It affects vulnerable communities the most, including low-income families, disaster-prone regions, coastal populations, and indigenous groups. Global citizens must recognize the interconnectedness of social equity and environmental responsibility.</p>
+    <p>Today, scientific reports show that global average surface temperature has already increased by about 1.1 °C above pre‑industrial levels. This seemingly small rise masks large regional differences, where some places heat much more and suffer more extreme events. Climate models warn that unless emissions are drastically cut, we are likely to reach 1.5 °C or more within the next decade.</p>
+    <p>Because the climate system is interconnected, changes in one region ripple across the globe: melting polar ice raises sea levels elsewhere, while shifting ocean currents affect distant weather patterns. This means that local actions matter globally — and global policies affect local lives.</p>
+    <div class="images">
+      <img src="climate.webp" alt="Climate Impact">
+      <img src="global.gif" alt="Global Justice">
+    </div>
+  </section>
+
+  <!-- Cause & Effect -->
+  <section id="cause-effect">
+    <h2>Cause & Effect</h2>
+    <p>The causes of climate change include greenhouse gas emissions from industry, deforestation, and unsustainable agriculture. Its effects ripple across social, economic, and political systems worldwide.</p>
+    <p>As industries expand, the demand for energy increases. Most countries rely heavily on coal, oil, and natural gas—fossil fuels that release enormous amounts of carbon dioxide when burned. Deforestation also reduces the planet’s ability to absorb CO2, while improper agricultural practices emit methane and nitrous oxide, two powerful greenhouse gases.</p>
+    <p>One major driver is the concept of “historic emissions”: industrialised countries over the last century have emitted far more greenhouse gases, giving them greater responsibility to act.</p>
+    <p>The effects are already visible: stronger typhoons, deadly heat waves, water shortages, decreasing crop productivity, and high economic losses due to climate-related disasters. Vulnerable groups — including women, indigenous communities, children, and low-income nations — suffer first and worst because they have fewer resources to adapt.</p>
+    <div class="chart-containerch">
+      <canvas id="causeEffectChart"></canvas>
+    </div>
+  </section>
+
+  <!-- Filipino Context -->
+  <section id="philippines">
+    <h2>Philippine Context</h2>
+    <p>The Philippines is highly vulnerable to climate change, facing typhoons, flooding, and rising sea levels. According to PAGASA, the country experiences over 20 typhoons annually, affecting millions of people and disrupting agriculture.</p>
+    <p>Due to its geographic location, the Philippines sits along the Pacific Ring of Fire and typhoon belt, making it one of the world’s most disaster-prone countries. Climate change intensifies these natural hazards. Typhoon Haiyan (Yolanda) in 2013 remains one of the strongest storms ever recorded, causing massive destruction and loss of life.</p>
+    <p>Coastal communities face the threat of rising sea levels, which contribute to shoreline erosion, saltwater intrusion, and flooding. Farmers and fisherfolk struggle to adapt to unpredictable weather patterns, affecting food production and livelihood.</p>
+    <p>In addition, gradual sea-level rise causes long-term issues such as saltwater intrusion into farmland and freshwater supplies. Migration and displacement are emerging concerns, as families relocate from rural to urban areas due to climate impacts.</p>
+    <div class="images">
+      <img src="typhoon.gif" alt="Philippine Typhoon">
+    </div>
+  </section>
+
+<!-- Media -->
+<section id="media">
+  <h2>Media</h2>
+  <p>Watch these informative videos about climate change and global justice:</p>
+
+  <div class="video-container">
+    <video controls style="width:100%; max-width:700px; border-radius:10px;">
+      <source src="videos/video1.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <p>This video explains what climate justice is — how global inequality is deeply connected to climate change, and why fairness matters in climate action.</p>
+
+  <div class="chart-containerch">
+    <canvas id="emissionsChart"></canvas>
+  </div>
+
+  <p>Here’s another powerful video about how climate change and justice go hand in hand:</p>
+
+  <div class="video-container">
+    <video controls style="width:100%; max-width:700px; border-radius:10px;">
+      <source src="videos/video2.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <p>In this talk, the speaker argues that tackling climate change must include justice — especially for marginalized communities disproportionately affected by environmental harm.</p>
+</section>
+
+
+  <!-- Solutions -->
+  <section id="solutions">
+    <h2>Proposed Solutions</h2>
+    <p>Addressing climate change requires global collaboration. Solutions include renewable energy adoption, reforestation, sustainable agriculture, and promoting climate justice policies to support vulnerable populations.</p>
+    <p>Transitioning to clean energy sources such as solar, wind, and hydroelectric power can significantly reduce carbon emissions. Governments must invest in climate-resilient infrastructure, disaster preparedness, and environmental education.</p>
+    <p>Effective solutions must include equity and justice — not just technological fixes. Climate justice ensures those most impacted are included in decision-making and that the burdens and benefits of climate policy are fairly shared.</p>
+    <p>At the community level, planting native tree species, restoring mangroves in coastal areas, promoting agro-ecological farming practices, and educating youth about climate care are practical steps that individuals can take.</p>
+    <p>On the policy level, countries need to honor the principle of “common but differentiated responsibilities” — industrialized nations lead emission reductions and provide support to developing nations.</p>
+    <div class="images">
+      <img src="energy.gif" alt="Renewable Energy">
+      <img src="Reforestation.gif" alt="Reforestation">
+    </div>
+  </section>
+
+  <!-- Glossary -->
+  <section id="glossary">
+    <h2>Glossary & Key Terms</h2>
+    <p><strong>Greenhouse gases (GHGs):</strong> Gases such as carbon dioxide (CO₂), methane (CH₄), and nitrous oxide (N₂O) that trap heat in the atmosphere.</p>
+    <p><strong>Climate justice:</strong> A framework addressing how climate change and its responses affect different people unfairly, seeking fair solutions.</p>
+    <p><strong>Adaptation:</strong> Actions that help communities adjust to the impacts of climate change (e.g., building flood defenses, changing crop varieties).</p>
+    <p><strong>Mitigation:</strong> Efforts to reduce or prevent greenhouse gas emissions (e.g., switching to renewable energy, improving energy efficiency).</p>
+    <p><strong>Resilience:</strong> The capacity of communities, ecosystems or systems to absorb disturbances while maintaining function.</p>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <h2>Contact</h2>
+    <p>Reach out to us through any of the following channels:</p>
+    <div class="contact-info" style="max-width: 500px; margin: 20px auto; text-align: left;">
+      <p><img src="https://cdn-icons-png.flaticon.com/512/561/561188.png" /> Email: <a href="mailto:info@example.com">info@example.com</a></p>
+      <p><img src="https://cdn-icons-png.flaticon.com/512/159/159832.png" /> Phone: <a href="tel:+632123456789">+63 2 1234 56789</a></p>
+      <p><img src="https://cdn-icons-png.flaticon.com/512/535/535188.png" /> Facebook: <a href="https://www.facebook.com" target="_blank">facebook.com/globalshowcase</a></p>
+    </div>
+  </section>
+
+  <section id="team">
+    <h2>Meet Our Team</h2>
+    <button class="team-dropdown-btn" onclick="toggleTeam()">Show Team Members</button>
+    <div class="team-content" id="teamContent">
+      <div class="team-member"><img src="rena.jpg" alt="Member 1" /><p>Rena</p></div>
+      <div class="team-member"><img src="gelo.jpg" alt="Member 2" /><p>Angelo</p></div>
+      <div class="team-member"><img src="liz.jpg" alt="Member 3" /><p>Lizzie</p></div>
+      <div class="team-member"><img src="pat.jpg" alt="Member 4" /><p>Patrick</p></div>
+      <div class="team-member"><img src="francine.jpg" alt="Member 5" /><p>Francine</p></div>
+      <div class="team-member"><img src="jp.jpg" alt="Member 6" /><p>John Paul</p></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Global Citizen's Showcase | Made by GROUP 6</p>
+  </footer>
+
+  <!-- JavaScript -->
+  <script>
+    // Landing Image Slider
+    const landing = document.querySelector('.landing');
+    const landingImages = ['1.jpg', '2.png', '3.png'];
+    let currentIndex = 0;
+    landing.style.backgroundImage = `url('${landingImages[currentIndex]}')`;
+    landing.style.backgroundSize = 'cover';
+    landing.style.backgroundPosition = 'center';
+    landing.classList.add('blur-bg');
+    function changeLandingImage() {
+      currentIndex = (currentIndex + 1) % landingImages.length;
+      landing.style.backgroundImage = `url('${landingImages[currentIndex]}')`;
+    }
+    setInterval(changeLandingImage, 5000);
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        window.scrollTo({
+          top: target.offsetTop - 60,
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Fade-in sections on scroll
+    const sections = document.querySelectorAll('section');
+    window.addEventListener('scroll', () => {
+      const scrollPos = window.scrollY + window.innerHeight * 0.8;
+      sections.forEach(sec => {
+        if (scrollPos > sec.offsetTop) sec.classList.add('visible');
+      });
+    });
+
+    // Chart.js Example
+    const ctx = document.getElementById('causeEffectChart').getContext('2d');
+    const causeEffectChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Fossil Fuels', 'Deforestation', 'Agriculture', 'Industrial Emissions'],
+        datasets: [{
+          label: 'GHG Contribution (%)',
+          data: [40, 25, 20, 15],
+          backgroundColor: ['#1e3a5f','#4b6c8a','#7a9eb5','#a1c4d4']
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: false } } }
+    });
+
+    const ctx2 = document.getElementById('emissionsChart').getContext('2d');
+    const emissionsChart = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: ['2000','2005','2010','2015','2020','2025'],
+        datasets: [{
+          label: 'Global CO2 Emissions (Gt)',
+          data: [24,25,27,30,33,36],
+          borderColor: '#1e3a5f',
+          backgroundColor: 'rgba(30,58,95,0.2)',
+          tension: 0.3,
+          fill: true
+        }]
+      },
+      options: { responsive: true, plugins: { legend: { display: true } } }
+    });
+
+    function toggleTeam() {
+      const teamContent = document.getElementById('teamContent');
+      teamContent.classList.toggle('show');
+    }
+    // BURGER MENU FUNCTION
+const burger = document.getElementById("burger");
+const navLinks = document.querySelector(".nav-links");
+
+burger.addEventListener("click", () => {
+  burger.classList.toggle("active");
+  navLinks.classList.toggle("show");
+});
+
+  </script>
+</body>
+</html>
