@@ -3,25 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <!-- Bagay na ito: set referrer policy sa meta -->
   <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>Global Citizen's Showcase - Climate Change</title>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🌐</text></svg>">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    /* General Styles */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
     body { background: linear-gradient(135deg, #b9d2f5, #b9d5ff); color: #333; scroll-behavior: smooth; }
     a { text-decoration: none; color: inherit; }
 
-    /* Navbar */
     nav.navbar { position: fixed; top: 0; width: 100%; background: rgba(255,255,255,0.15); backdrop-filter: blur(15px); display: flex; justify-content: space-between; align-items: center; padding: 15px 50px; z-index: 1000; transition: all 0.5s ease; }
     .logo { font-family: 'Raleway', sans-serif; font-size: 1.8em; font-weight: 700; color: #1e3a5f; }
     .nav-links a { margin: 0 15px; font-weight: 600; font-size: 0.95em; color: #1e3a5f; transition: color 0.4s ease, transform 0.3s ease; }
     .nav-links a:hover { color: #6390b9; transform: scale(1.1); }
 
-    /* Landing */
     .landing { height: 100vh; background: url('https://images.unsplash.com/photo-1503264116251-35a269479413?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: #fff; transition: all 1s ease; position: relative; }
     .landing.blur-bg::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: inherit; background-size: cover; background-position: center; filter: blur(8px); z-index: -1; }
     .landing h1 { font-size: 4em; margin-bottom: 15px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
@@ -29,30 +26,24 @@
     .landing a.landing-btn { display: inline-block; margin-top: 20px; padding: 12px 28px; background: rgba(30,58,95,0.8); color: #fff; font-weight: bold; border-radius: 5px; transition: background 0.4s ease, color 0.4s ease, transform 0.3s ease; }
     .landing a.landing-btn:hover { background: #4b6c8a; transform: scale(1.05); }
 
-    /* Sections */
     section { padding: 50px 20px; text-align: center; opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
     section.visible { opacity: 1; transform: translateY(0); }
     section h2 { font-size: 2.2em; margin-bottom: 12px; color: #1e3a5f; transition: color 0.3s ease; }
     section p { max-width: 750px; margin: 0 auto 18px auto; font-size: 1.1em; color: #444; line-height: 1.6; }
 
-    /* Images / Media */
     .images { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 18px; }
     .images img { width: 300px; height: 200px; object-fit: cover; border-radius: 10px; transition: transform 0.4s ease, box-shadow 0.4s ease; }
     .images img:hover { transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
 
-    /* Responsive Video Container */
     .video-container { position: relative; width: 80%; margin: 10px auto; padding-bottom: 30%; height: 0; transition: all 0.5s ease; }
     .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 10px; transition: transform 0.4s ease; }
     .video-container iframe:hover { transform: scale(1.02); }
 
-    /* Chart Container */
     .chart-containerch { width: 70%; max-width: 500px; margin: 15px auto; transition: all 0.5s ease; }
 
-    /* Contact Section */
     .contact-info p { margin: 5px 0; font-size: 1.1em; display: flex; align-items: center; gap: 10px; transition: all 0.4s ease; }
     .contact-info img { width: 22px; vertical-align: middle; }
 
-    /* Team Dropdown */
     .team-dropdown-btn { display: inline-block; margin: 15px 0; padding: 10px 15px; font-size: 1.05em; font-weight: 600; background: #1e3a5f; color: #fff; border: none; border-radius: 5px; cursor: pointer; transition: background 0.4s ease, transform 0.3s ease; }
     .team-dropdown-btn:hover { background: #4b6c8a; transform: scale(1.05); }
 
@@ -61,13 +52,11 @@
     .team-content img { width: 150px; height: 150px; object-fit: cover; border-radius: 50%; transition: transform 0.4s ease, box-shadow 0.4s ease; }
     .team-content img:hover { transform: scale(1.05); box-shadow: 0 8px 15px rgba(0,0,0,0.2); }
 
-    /* Footer */
     footer { padding: 25px 20px; text-align: center; background: rgba(30,58,95,0.15); backdrop-filter: blur(5px); color: #1e3a5f; transition: all 0.5s ease; }
     footer img { width: 22px; vertical-align: middle; margin-right: 6px; }
     footer a { color: #1e3a5f; transition: color 0.3s ease; }
     footer a:hover { color: #4b6c8a; }
 
-    /* Responsive */
     @media (max-width:768px) {
       .landing h1 { font-size: 3em; }
       .landing p { font-size: 1.2em; margin-bottom: 15px; }
@@ -78,7 +67,6 @@
       .video-container { width: 90%; padding-bottom: 56.25%; margin: 20px auto; }
       .team-content img { width: 40%; height: auto; }
     }
-    /* BURGER MENU */
 .burger {
   display: none;
   cursor: pointer;
@@ -94,7 +82,6 @@
   transition: 0.4s;
 }
 
-/* SHOW BURGER ON MOBILE */
 @media (max-width: 768px) {
   .burger { display: flex; }
 
@@ -125,7 +112,6 @@
     right: 0;
   }
 
-  /* Burger Animation */
   .burger.active span:nth-child(1) {
     transform: rotate(45deg) translateY(8px);
   }
@@ -141,10 +127,8 @@
 </head>
 <body>
 
-  <!-- Navbar -->
   <nav class="navbar">
     <div class="logo">🌐 Global Showcase</div>
-    <!-- BURGER MENU BUTTON -->
     <div class="burger" id="burger">
       <span></span>
       <span></span>
@@ -163,14 +147,12 @@
     </div>
   </nav>
 
-  <!-- Landing -->
   <section class="landing" id="home">
     <h1>Global Citizen's Showcase</h1>
     <p>Understanding Climate Change and Global Justice: Examine causes, effects, and solutions with real-world applications.</p>
     <a href="#overview" class="landing-btn">Start Exploring</a>
   </section>
 
-  <!-- Overview -->
   <section id="overview">
     <h2>Overview</h2>
     <p>Climate change is one of the most pressing global issues, affecting ecosystems, economies, and societies worldwide. Rising temperatures, extreme weather events, and sea-level rise are interconnected with economic development and global justice.</p>
@@ -184,7 +166,6 @@
     </div>
   </section>
 
-  <!-- Cause & Effect -->
   <section id="cause-effect">
     <h2>Cause & Effect</h2>
     <p>The causes of climate change include greenhouse gas emissions from industry, deforestation, and unsustainable agriculture. Its effects ripple across social, economic, and political systems worldwide.</p>
@@ -196,7 +177,6 @@
     </div>
   </section>
 
-  <!-- Filipino Context -->
   <section id="philippines">
     <h2>Philippine Context</h2>
     <p>The Philippines is highly vulnerable to climate change, facing typhoons, flooding, and rising sea levels. According to PAGASA, the country experiences over 20 typhoons annually, affecting millions of people and disrupting agriculture.</p>
@@ -208,7 +188,6 @@
     </div>
   </section>
 
-<!-- Media -->
 <section id="media">
   <h2>Media</h2>
   <p>Watch these informative videos about climate change and global justice:</p>
@@ -239,7 +218,6 @@
 </section>
 
 
-  <!-- Solutions -->
   <section id="solutions">
     <h2>Proposed Solutions</h2>
     <p>Addressing climate change requires global collaboration. Solutions include renewable energy adoption, reforestation, sustainable agriculture, and promoting climate justice policies to support vulnerable populations.</p>
@@ -253,7 +231,6 @@
     </div>
   </section>
 
-  <!-- Glossary -->
   <section id="glossary">
     <h2>Glossary & Key Terms</h2>
     <p><strong>Greenhouse gases (GHGs):</strong> Gases such as carbon dioxide (CO₂), methane (CH₄), and nitrous oxide (N₂O) that trap heat in the atmosphere.</p>
@@ -263,7 +240,6 @@
     <p><strong>Resilience:</strong> The capacity of communities, ecosystems or systems to absorb disturbances while maintaining function.</p>
   </section>
 
-  <!-- Contact -->
   <section id="contact">
     <h2>Contact</h2>
     <p>Reach out to us through any of the following channels:</p>
@@ -287,14 +263,11 @@
     </div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p>© 2025 Global Citizen's Showcase | Made by GROUP 6</p>
   </footer>
 
-  <!-- JavaScript -->
   <script>
-    // Landing Image Slider
     const landing = document.querySelector('.landing');
     const landingImages = ['1.jpg', '2.png', '3.png'];
     let currentIndex = 0;
@@ -308,7 +281,6 @@
     }
     setInterval(changeLandingImage, 5000);
 
-    // Smooth scroll for nav links
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', function(e) {
         e.preventDefault();
@@ -320,7 +292,6 @@
       });
     });
 
-    // Fade-in sections on scroll
     const sections = document.querySelectorAll('section');
     window.addEventListener('scroll', () => {
       const scrollPos = window.scrollY + window.innerHeight * 0.8;
@@ -329,7 +300,6 @@
       });
     });
 
-    // Chart.js Example
     const ctx = document.getElementById('causeEffectChart').getContext('2d');
     const causeEffectChart = new Chart(ctx, {
       type: 'bar',
@@ -365,7 +335,7 @@
       const teamContent = document.getElementById('teamContent');
       teamContent.classList.toggle('show');
     }
-    // BURGER MENU FUNCTION
+
 const burger = document.getElementById("burger");
 const navLinks = document.querySelector(".nav-links");
 
@@ -377,3 +347,4 @@ burger.addEventListener("click", () => {
   </script>
 </body>
 </html>
+
